@@ -1,10 +1,18 @@
 import React from 'react'
+import {Row, Col} from 'react-bootstrap'
+import Offer from '../components/Offer'
+import StartNews from '../components/StartNews'
 
 const Main = () => {
   return (
-    <div>
-      <h2>Main</h2>
-    </div>
+    <Row>
+      <Col md={3}>
+        <Offer />
+      </Col>
+      <Col>
+        <StartNews />
+      </Col>
+    </Row>
   )
 }
 

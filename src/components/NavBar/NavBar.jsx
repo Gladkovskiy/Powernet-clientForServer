@@ -4,16 +4,17 @@ import {useMatch, useNavigate, Link} from 'react-router-dom'
 
 import {navbarInfo} from '../../routes'
 import ButtonBlock from './ButtonBlock'
+import {FaBattleNet} from 'react-icons/fa'
 
 const NavBar = () => {
   const navigate = useNavigate()
   const Active = path => !!useMatch(path)
 
   return (
-    <Navbar bg="dark" variant="dark" expand="lg" className="p-3">
+    <Navbar bg="dark" variant="dark" expand="lg" className="p-2">
       <Container>
         <Link to={navbarInfo[0].path} className="text-light fw-bold ">
-          POWERNET
+          <FaBattleNet className="fs-2" /> POWERNET
         </Link>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
