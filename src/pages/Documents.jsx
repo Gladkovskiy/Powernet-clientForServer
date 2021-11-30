@@ -1,24 +1,31 @@
-import React, {useState, useEffect} from 'react'
-import {documents} from '../assets/documents'
-import {delay} from '../utils/delay'
-import Spinner from '../components/Spinner'
+import React from 'react'
+import {Card, Carousel, Row, Col} from 'react-bootstrap'
+import {documents} from '../assets/carusel/documents'
 
 const Documents = () => {
-  const [isLoading, setLoading] = useState(true)
-  const [documentActual, setDocumentActual] = useState()
-
-  //данные с сервера эмитируем
-  useEffect(() => {
-    delay().then(() => {
-      setDocumentActual(documents)
-      setLoading(false)
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  if (isLoading) return <Spinner />
-
-  return <div>DOCUMENT</div>
+  return (
+    <Row>
+      <Col md={6} sm className="m-auto">
+        <Card className="p-1">
+          <Carousel variant="dark">
+            {documents.map((img, index) => (
+              <Carousel.Item
+                key={index}
+                interval="3000"
+                style={{height: '38rem'}}
+              >
+                <img
+                  className="d-block w-100 h-100"
+                  src={img}
+                  alt={index + 'slide'}
+                />
+              </Carousel.Item>
+            ))}
+          </Carousel>
+        </Card>
+      </Col>
+    </Row>
+  )
 }
 
 export default Documents

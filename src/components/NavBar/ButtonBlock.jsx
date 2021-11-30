@@ -6,15 +6,18 @@ import {useNavigate} from 'react-router-dom'
 import {ADMIN_ROUTE, PERSONAL_AREA_ROUTE, LOGIN_ROUTE} from '../../utils/const'
 import {observer} from 'mobx-react-lite'
 
-const ButtonBlock = () => {
+const ButtonBlock = ({setVisibleNavBody}) => {
   const navigate = useNavigate()
 
   if (!UserStorage.isAuth) {
     return (
       <Button
         variant="outline-light"
-        className="ms-3 d-flex align-center fs-4"
-        onClick={() => navigate(LOGIN_ROUTE)}
+        className="ms-3 d-flex align-center fs-4 ms-auto"
+        onClick={() => {
+          navigate(LOGIN_ROUTE)
+          setVisibleNavBody(false)
+        }}
       >
         <AiOutlineUser />
       </Button>
@@ -24,15 +27,19 @@ const ButtonBlock = () => {
   const onExit = () => {
     UserStorage.setRole('')
     UserStorage.setIsAuth(false)
+    setVisibleNavBody(false)
   }
 
   return (
-    <>
+    <span className="ms-auto d-flex">
       {UserStorage.isAdmin && UserStorage.isAuth && (
         <Button
           variant="outline-light"
           className="ms-3 d-flex align-center"
-          onClick={() => navigate(ADMIN_ROUTE)}
+          onClick={() => {
+            navigate(ADMIN_ROUTE)
+            setVisibleNavBody(false)
+          }}
         >
           Админка
         </Button>
@@ -42,7 +49,10 @@ const ButtonBlock = () => {
         <Button
           variant="outline-light"
           className="ms-3 d-flex align-center"
-          onClick={() => navigate(PERSONAL_AREA_ROUTE)}
+          onClick={() => {
+            navigate(PERSONAL_AREA_ROUTE)
+            setVisibleNavBody(false)
+          }}
         >
           Личный кабинет
         </Button>
@@ -57,7 +67,7 @@ const ButtonBlock = () => {
           Вихід
         </Button>
       )}
-    </>
+    </span>
   )
 }
 

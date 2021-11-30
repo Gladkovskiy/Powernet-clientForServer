@@ -18,7 +18,7 @@ const StartNews = () => {
             style={{cursor: 'pointer'}}
             onClick={() => navigate(NEWS_ROUTE + '/' + id)}
           >
-            {date} {title}
+            <span className="bg-secondary text-light p-1">{date}</span> {title}
           </ListGroup.Item>
         ))}
       </ListGroup>
