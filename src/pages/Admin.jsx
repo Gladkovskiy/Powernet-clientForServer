@@ -1,10 +1,46 @@
-import React from 'react'
+import React, {useState} from 'react'
+import AdminPanel from '../components/AdminPanel'
+import AddNews from '../components/modalAdminPanel/EditNews/AddNews'
+import DeleteNews from '../components/modalAdminPanel/EditNews/DeleteNews'
+import EditNews from '../components/modalAdminPanel/EditNews/EditNews'
+import AddUser from '../components/modalAdminPanel/EditUser/AddUser'
+import EditUser from '../components/modalAdminPanel/EditUser/EditUser'
+import AddTariff from '../components/modalAdminPanel/EditTariff/AddTariff'
+import EditTarif from '../components/modalAdminPanel/EditTariff/EditTarif'
 
 const Admin = () => {
+  const [addNews, setAddNews] = useState(false)
+  const [editNews, setEditNews] = useState(false)
+  const [deleteNews, setDeleteNews] = useState(false)
+  const [addUser, setAddUser] = useState(false)
+  const [editUser, setEditUser] = useState(false)
+  const [addTariff, setAddTariff] = useState(false)
+  const [editTariff, setEditTariff] = useState(false)
+
+  const options = {
+    setAddNews,
+    setEditNews,
+    setDeleteNews,
+    setAddUser,
+    setEditUser,
+    setAddTariff,
+    setEditTariff,
+  }
+
   return (
-    <div>
-      <h2>Admin</h2>
-    </div>
+    <>
+      <AdminPanel modalOpen={options} />
+      {/* новости */}
+      <AddNews show={addNews} handleClose={() => setAddNews(false)} />
+      <EditNews show={editNews} handleClose={() => setEditNews(false)} />
+      <DeleteNews show={deleteNews} handleClose={() => setDeleteNews(false)} />
+      {/* пользователь */}
+      <AddUser show={addUser} handleClose={() => setAddUser(false)} />
+      <EditUser show={editUser} handleClose={() => setEditUser(false)} />
+      {/* тариф */}
+      <AddTariff show={addTariff} handleClose={() => setAddTariff(false)} />
+      <EditTarif show={editTariff} handleClose={() => setEditTariff(false)} />
+    </>
   )
 }
 

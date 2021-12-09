@@ -1,8 +1,8 @@
 import {makeAutoObservable} from 'mobx'
 
 class UserStore {
-  isAuth = true
-  role = 'USER'
+  isAuth = false
+  role = ''
 
   constructor() {
     makeAutoObservable(this)

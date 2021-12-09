@@ -5,7 +5,7 @@ import {documents} from '../assets/carusel/documents'
 const Documents = () => {
   return (
     <Row>
-      <Col md={6} sm className="m-auto">
+      <Col md={6} sm xl={4} className="m-auto">
         <Card className="p-1">
           <Carousel variant="dark">
             {documents.map((img, index) => (

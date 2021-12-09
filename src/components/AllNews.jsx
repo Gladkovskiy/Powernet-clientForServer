@@ -18,7 +18,8 @@ const AllNews = ({page}) => {
             style={{cursor: 'pointer'}}
             onClick={() => navigate(NEWS_ROUTE + '/' + id)}
           >
-            <span className="bg-secondary text-light p-1 me-1">{date}</span>
+            <span className="bg-secondary text-light p-1 me-1">{date}</span>{' '}
+            <br />
             {title}
           </ListGroup.Item>
         ))}

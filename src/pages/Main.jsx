@@ -6,11 +6,11 @@ import StartNews from '../components/StartNews'
 const Main = () => {
   return (
     <Row>
-      <Col md={3}>
-        <Offer />
-      </Col>
-      <Col>
+      <Col sm={{order: 2}}>
         <StartNews />
+      </Col>
+      <Col sm={{span: 4, order: 1}}>
+        <Offer />
       </Col>
     </Row>
   )

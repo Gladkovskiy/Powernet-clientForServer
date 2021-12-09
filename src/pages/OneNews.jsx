@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 import {Card} from 'react-bootstrap'
 import {useParams} from 'react-router-dom'
 import {listInfo} from '../assets/news'
@@ -10,12 +10,15 @@ const OneNews = () => {
   const {id} = useParams()
   const [isLoading, setLoading] = useState(true)
   const [news, setNews] = useState()
+  //для тогочтобы вставить кусок html  в компонент
+  const text = useRef()
 
   //данные с сервера эмитируем
   useEffect(() => {
     delay().then(() => {
       setNews(listInfo[+id - 1])
       setLoading(false)
+      text.current.innerHTML = listInfo[+id - 1].text
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -28,7 +31,7 @@ const OneNews = () => {
       <Card.Body>
         <Card.Title>{news.title}</Card.Title>
         <Card.Text>{news.date}</Card.Text>
-        <Card.Text>{news.text}</Card.Text>
+        <Card.Text ref={text}></Card.Text>
       </Card.Body>
     </Card>
   )

@@ -9,7 +9,7 @@ function App() {
   return (
     <BrowserRouter>
       <NavBar />
-      <Container className="p-2" style={{minHeight: '84vh'}}>
+      <Container className="p-2" style={{minHeight: '87vh'}}>
         <AppRouter />
       </Container>
       <Footer />
