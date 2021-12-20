@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {documents} from '../assets/documents'
-import {delay} from '../utils/delay'
+import {delay} from '../utils/pureFunction.js'
 import Spinner from '../components/Spinner'
 import {Accordion} from 'react-bootstrap'
 

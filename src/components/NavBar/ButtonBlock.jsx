@@ -28,6 +28,7 @@ const ButtonBlock = ({setVisibleNavBody}) => {
     UserStorage.setRole('')
     UserStorage.setIsAuth(false)
     setVisibleNavBody(false)
+    localStorage.setItem('token', null)
   }
 
   return (

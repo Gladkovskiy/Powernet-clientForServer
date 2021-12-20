@@ -1,32 +1,20 @@
 import React, {useState} from 'react'
-import {
-  Card,
-  Row,
-  Col,
-  Form,
-  FloatingLabel,
-  Button,
-  Dropdown,
-} from 'react-bootstrap'
-import UserStorage from '../store/UserStorage'
+import {Card, Row, Col, Form, FloatingLabel, Button} from 'react-bootstrap'
 import {useNavigate} from 'react-router-dom'
 import {MAIN_ROUTE} from '../utils/const'
+import useLogin from '../http/react-query/useLogin.js'
 
 const Login = () => {
   const [login, setLogin] = useState('')
   const [password, setPassword] = useState('')
-  const [isError] = useState(true)
-  const [role, setRole] = useState('Выберите роль')
   const navigate = useNavigate()
-
-  console.log(role)
+  const loginMutation = useLogin()
 
   const confirmLogin = e => {
     e.preventDefault()
-    console.log({login, password})
-    UserStorage.setIsAuth(true)
-    UserStorage.setRole(role)
-    navigate(MAIN_ROUTE)
+    loginMutation
+      .mutateAsync({login, password})
+      .then(() => navigate(MAIN_ROUTE))
   }
 
   return (
@@ -56,30 +44,11 @@ const Login = () => {
                 />
               </FloatingLabel>
 
-              {/* временно для выбора роли */}
-              <Dropdown>
-                <Dropdown.Toggle variant="danger">{role}</Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item
-                    onClick={() => {
-                      setRole('ADMIN')
-                    }}
-                  >
-                    ADMIN
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    onClick={() => {
-                      setRole('USER')
-                    }}
-                  >
-                    USER
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-
               <div className="d-flex justify-content-end align-items-center">
-                {isError && (
-                  <span className="text-danger me-5">Неверный пароль</span>
+                {loginMutation.isError && (
+                  <span className="text-danger me-5">
+                    {loginMutation.error.response.data.message}
+                  </span>
                 )}
                 <Button
                   variant="outline-dark"

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import TariffsTable from '../components/TariffsTable'
 import {tarrifs, additionalServices} from '../assets/tarrifs'
-import {delay} from '../utils/delay'
+import {delay} from '../utils/pureFunction.js'
 import Spinner from '../components/Spinner'
 import AdditionalServices from '../components/AdditionalServices'
 

@@ -3,6 +3,7 @@ import {makeAutoObservable} from 'mobx'
 class UserStore {
   isAuth = false
   role = ''
+  idUser = ''
 
   constructor() {
     makeAutoObservable(this)
@@ -13,6 +14,10 @@ class UserStore {
   }
   setRole(role) {
     this.role = role
+  }
+
+  setId(id) {
+    this.idUser = id
   }
 
   get isAdmin() {

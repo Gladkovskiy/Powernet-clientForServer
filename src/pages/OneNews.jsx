@@ -1,36 +1,31 @@
-import React, {useEffect, useState, useRef} from 'react'
+import React, {useEffect, useRef} from 'react'
 import {Card} from 'react-bootstrap'
 import {useParams} from 'react-router-dom'
-import {listInfo} from '../assets/news'
-import {delay} from '../utils/delay'
-import newsImg from '../assets/news.jpg'
 import Spinner from '../components/Spinner'
+import useOneNews from '../http/react-query/news/useOneNews.js'
+import {normalizeDate} from '../utils/pureFunction.js'
 
 const OneNews = () => {
   const {id} = useParams()
-  const [isLoading, setLoading] = useState(true)
-  const [news, setNews] = useState()
-  //для тогочтобы вставить кусок html  в компонент
+  const news = useOneNews(id)
   const text = useRef()
 
-  //данные с сервера эмитируем
   useEffect(() => {
-    delay().then(() => {
-      setNews(listInfo[+id - 1])
-      setLoading(false)
-      text.current.innerHTML = listInfo[+id - 1].text
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    if (!news.isLoading) text.current.innerHTML = news.data.text
+  })
 
-  if (isLoading) return <Spinner />
+  if (news.isLoading) return <Spinner />
 
   return (
     <Card className="p-1 shadow">
-      <Card.Img variant="top" src={newsImg} className="w-50" />
+      <Card.Img
+        variant="top"
+        src={`/image/${news.data.img}`}
+        className="w-50"
+      />
       <Card.Body>
-        <Card.Title>{news.title}</Card.Title>
-        <Card.Text>{news.date}</Card.Text>
+        <Card.Title>{news.data.title}</Card.Title>
+        <Card.Text>{normalizeDate(news.data.updatedAt)}</Card.Text>
         <Card.Text ref={text}></Card.Text>
       </Card.Body>
     </Card>

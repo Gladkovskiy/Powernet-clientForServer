@@ -2,23 +2,28 @@ import React from 'react'
 import {Card, ListGroup} from 'react-bootstrap'
 import {useNavigate} from 'react-router-dom'
 import {NEWS_ROUTE} from '../utils/const'
-import {listInfo} from '../assets/news.js'
+import useGetNews from '../http/react-query/news/useGetNews.js'
+import Spinner from '../components/Spinner'
 
 const StartNews = () => {
+  const getNews = useGetNews(1, 10)
   const navigate = useNavigate()
-  const lastNews = listInfo.slice(0, 10) //количество выводимых новостей
+
+  if (getNews.isLoading) return <Spinner />
+  const lastNews = getNews.data.rows
 
   return (
     <Card className="shadow border-0" bg="secondary" text="light">
       <Card.Header>Останні новини</Card.Header>
       <ListGroup variant="flush">
-        {lastNews.map(({title, date, id}, index) => (
+        {lastNews.map(({title, updatedAt, id}, index) => (
           <ListGroup.Item
             key={index}
             style={{cursor: 'pointer'}}
             onClick={() => navigate(NEWS_ROUTE + '/' + id)}
           >
-            <span className="bg-secondary text-light p-1"> {date}</span> <br />
+            <span className="bg-secondary text-light p-1"> {updatedAt}</span>{' '}
+            <br />
             {title}
           </ListGroup.Item>
         ))}
