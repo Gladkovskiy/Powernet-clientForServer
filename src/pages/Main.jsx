@@ -6,7 +6,11 @@ import StartNews from '../components/StartNews'
 const Main = () => {
   return (
     <Row>
-      <Col sm={{order: 2}} className="position-relative">
+      <Col
+        sm={{order: 2}}
+        className="position-relative"
+        style={{minHeight: '60vh'}}
+      >
         <StartNews />
       </Col>
       <Col sm={{span: 4, order: 1}}>

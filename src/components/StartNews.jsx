@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router-dom'
 import {NEWS_ROUTE} from '../utils/const'
 import useGetNews from '../http/react-query/news/useGetNews.js'
 import Spinner from '../components/Spinner'
+import {normalizeDate} from '../utils/pureFunction.js'
 
 const StartNews = () => {
   const getNews = useGetNews(1, 10)
@@ -22,7 +23,9 @@ const StartNews = () => {
             style={{cursor: 'pointer'}}
             onClick={() => navigate(NEWS_ROUTE + '/' + id)}
           >
-            <span className="bg-secondary text-light p-1"> {updatedAt}</span>{' '}
+            <span className="bg-secondary text-light p-1">
+              {normalizeDate(updatedAt)}
+            </span>
             <br />
             {title}
           </ListGroup.Item>

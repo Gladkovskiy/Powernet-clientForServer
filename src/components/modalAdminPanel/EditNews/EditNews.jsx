@@ -15,7 +15,7 @@ const EditNews = ({show, handleClose}) => {
       {!editNews ? (
         <NewsList news={setEditNews} />
       ) : (
-        <EditForm news={editNews} />
+        <EditForm id={editNews} handleClose={onHide} />
       )}
     </ModalTemplate>
   )
