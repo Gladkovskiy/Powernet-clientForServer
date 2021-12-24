@@ -1,16 +1,15 @@
 import {useQuery} from 'react-query'
-import {getOneUser} from '../../api/user'
+import {getTariff} from '../../api/tariffs'
 
-const Query = id => {
-  const query = useQuery(['getOneUser', id], () => getOneUser(id), {
+const Query = () => {
+  const query = useQuery(['getTariff'], getTariff, {
     placeholderData() {
-      // return {count: 0, rows: []}
+      return [{id: 1, name: 'Loading...'}]
     },
     onError(err) {},
     onSuccess(data) {},
     onSettled(data, err) {},
     // staleTime: 0,
-    enabled: false,
     retry: false,
   })
   return query

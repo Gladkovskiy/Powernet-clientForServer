@@ -1,16 +1,16 @@
 import {useQuery} from 'react-query'
-import {getOneUser} from '../../api/user'
+import {getAllUser} from '../../api/user'
 
 const Query = id => {
-  const query = useQuery(['getOneUser', id], () => getOneUser(id), {
+  const query = useQuery(['getAllUser', id], () => getAllUser(id), {
     placeholderData() {
-      // return {count: 0, rows: []}
+      return []
     },
     onError(err) {},
     onSuccess(data) {},
     onSettled(data, err) {},
-    // staleTime: 0,
-    enabled: false,
+    staleTime: 0,
+    enabled: true,
     retry: false,
   })
   return query

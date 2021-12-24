@@ -54,7 +54,7 @@ const AdminPanel = ({modalOpen}) => {
                   variant="outline-primary"
                   onClick={() => modalOpen.setEditUser(true)}
                 >
-                  Изменить
+                  Изменить/удалить
                 </Button>
               </div>
             </ListGroup.Item>

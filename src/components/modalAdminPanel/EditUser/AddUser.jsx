@@ -9,7 +9,7 @@ const AddUser = ({show, handleClose}) => {
       handleClose={handleClose}
       name="Добавить пользователя"
     >
-      <AddForm />
+      <AddForm handleClose={handleClose} />
     </ModalTemplate>
   )
 }

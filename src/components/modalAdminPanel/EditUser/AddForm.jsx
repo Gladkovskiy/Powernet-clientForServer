@@ -1,28 +1,15 @@
 import React from 'react'
 import {Form, FloatingLabel, Button} from 'react-bootstrap'
-import {tarrifs} from '../../../assets/tarrifs'
 import {Formik, ErrorMessage} from 'formik'
-import * as yup from 'yup'
+import {init, validationSchema} from '../../../formik/addUsers.js'
+import useGetRole from '../../../http/react-query/role/useGetRole.js'
+import useGetTariffs from '../../../http/react-query/tariffs/useGetTariffs.js'
+import useAddUser from '../../../http/react-query/user/useAddUser.js'
 
-const AddForm = () => {
-  const validationSchema = yup.object().shape({
-    fio: yup.string().required('Обязательно'),
-    adress: yup.string().required('Обязательно'),
-    ip: yup.string().required('Обязательно'),
-    login: yup.string().required('Обязательно'),
-    password: yup.string().required('Обязательно'),
-  })
-
-  const init = {
-    fio: '',
-    adress: '',
-    ip: '',
-    login: '',
-    password: '',
-    role: 'USER',
-    tariff: tarrifs[0].name,
-    active: true,
-  }
+const AddForm = ({handleClose}) => {
+  const role = useGetRole()
+  const tariffs = useGetTariffs()
+  const addUser = useAddUser()
 
   const controls = [
     {name: 'fio', label: 'ФИО'},
@@ -32,11 +19,12 @@ const AddForm = () => {
     {name: 'password', label: 'Password'},
   ]
 
-  const onSubmit = values => console.log(values)
+  const onSubmit = values =>
+    addUser.mutateAsync(values).then(() => handleClose())
 
   return (
     <Formik
-      initialValues={init}
+      initialValues={init(role.data[0].id, tariffs.data[0].id)}
       validateOnBlur
       validationSchema={validationSchema}
       onSubmit={onSubmit}
@@ -75,24 +63,38 @@ const AddForm = () => {
 
           <Form.Group className="mb-3">
             <Form.Label>Выберите роль</Form.Label>
-            <Form.Select onChange={handleChange} name="role">
-              <option value="USER">USER</option>
-              <option value="ADMIN">ADMIN</option>
+            <Form.Select onChange={handleChange} name="roleId">
+              {role.data.map(({id, type}, index) => (
+                <option key={index} value={id}>
+                  {type}
+                </option>
+              ))}
             </Form.Select>
           </Form.Group>
 
           <Form.Group className="mb-3">
             <Form.Label>Выберите тариф</Form.Label>
-            <Form.Select>
-              {tarrifs.map(({id, name}) => (
-                <option key={id} value={name}>
+            <Form.Select onChange={handleChange} name="tariffId">
+              {tariffs.data.map(({id, name}, index) => (
+                <option key={index} value={id}>
                   {name}
                 </option>
               ))}
             </Form.Select>
           </Form.Group>
 
-          <Button variant="primary" type="submit" onClick={handleSubmit}>
+          {addUser.isError && (
+            <div className="text-danger mb-2">
+              {addUser.error.response.data.message}
+            </div>
+          )}
+
+          <Button
+            variant="primary"
+            type="submit"
+            onClick={handleSubmit}
+            disabled={!dirty || !isValid}
+          >
             Добавить
           </Button>
         </Form>

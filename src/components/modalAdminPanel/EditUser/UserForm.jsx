@@ -1,19 +1,20 @@
 import React from 'react'
 import {Formik, ErrorMessage} from 'formik'
-import * as yup from 'yup'
+// import * as yup from 'yup'
 import {Form, FloatingLabel, Button} from 'react-bootstrap'
 import {tarrifs} from '../../../assets/tarrifs'
+import {validationSchema, init} from '../../../formik/editUser.js'
 
 const UserForm = ({user, close}) => {
-  const validationSchema = yup.object().shape({
+  /* const validationSchema = yup.object().shape({
     fio: yup.string().required('Обязательно'),
     adress: yup.string().required('Обязательно'),
     ip: yup.string().required('Обязательно'),
     login: yup.string().required('Обязательно'),
     password: yup.string().required('Обязательно'),
-  })
+  }) */
 
-  const init = {
+  /* const init = {
     fio: user.fio,
     adress: user.adress,
     ip: user.ip,
@@ -22,8 +23,8 @@ const UserForm = ({user, close}) => {
     role: user.role,
     tariff: user.tariff,
     active: user.active,
-  }
-
+  } */
+  console.log(user)
   const controls = [
     {name: 'fio', label: 'ФИО'},
     {name: 'adress', label: 'Адрес'},
@@ -34,12 +35,14 @@ const UserForm = ({user, close}) => {
 
   const onSubmit = values => {
     console.log(values)
-    close()
+    // close()
   }
+
+  const handleDelete = () => console.log(user.id)
 
   return (
     <Formik
-      initialValues={init}
+      initialValues={init(user)}
       validateOnBlur
       validationSchema={validationSchema}
       onSubmit={onSubmit}
@@ -67,6 +70,7 @@ const UserForm = ({user, close}) => {
                 name={name}
                 isValid={!errors[name] && touched[name]}
                 isInvalid={errors[name] && touched[name]}
+                disabled={name === 'password' && !values.editPassword}
               />
               <ErrorMessage
                 name={name}
@@ -76,6 +80,15 @@ const UserForm = ({user, close}) => {
             </FloatingLabel>
           ))}
 
+          <Form.Group>
+            <Form.Check
+              type="checkbox"
+              label="Изменить пароль"
+              name="editPassword"
+              onChange={handleChange}
+            />
+          </Form.Group>
+
           <Form.Group className="mb-3">
             <Form.Label>Выберите роль</Form.Label>
             <div className="d-flex">
@@ -83,7 +96,7 @@ const UserForm = ({user, close}) => {
                 <option value="USER">USER</option>
                 <option value="ADMIN">ADMIN</option>
               </Form.Select>
-              <Form.Control type="text" disabled value={values.role} />
+              <Form.Control type="text" disabled value={values.role.type} />
             </div>
           </Form.Group>
 
@@ -97,13 +110,23 @@ const UserForm = ({user, close}) => {
                   </option>
                 ))}
               </Form.Select>
-              <Form.Control type="text" disabled value={values.tariff} />
+              <Form.Control type="text" disabled value={values.tariff.name} />
             </div>
           </Form.Group>
 
-          <Button variant="primary" type="submit" onClick={handleSubmit}>
-            Изменить
-          </Button>
+          <div className="ms-auto w-50 text-end">
+            <Button variant="primary" type="submit" onClick={handleSubmit}>
+              Изменить
+            </Button>
+            <Button
+              variant="outline-danger"
+              type="submit"
+              onClick={handleDelete}
+              className="ms-2"
+            >
+              Удалить
+            </Button>
+          </div>
         </Form>
       )}
     </Formik>

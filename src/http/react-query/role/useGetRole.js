@@ -1,16 +1,15 @@
 import {useQuery} from 'react-query'
-import {getOneUser} from '../../api/user'
+import {getRole} from '../../api/role'
 
-const Query = id => {
-  const query = useQuery(['getOneUser', id], () => getOneUser(id), {
+const Query = () => {
+  const query = useQuery(['getRole'], getRole, {
     placeholderData() {
-      // return {count: 0, rows: []}
+      return [{id: 1, type: 'Loading...'}]
     },
     onError(err) {},
     onSuccess(data) {},
     onSettled(data, err) {},
     // staleTime: 0,
-    enabled: false,
     retry: false,
   })
   return query

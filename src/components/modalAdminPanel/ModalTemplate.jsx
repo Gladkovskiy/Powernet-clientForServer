@@ -7,7 +7,7 @@ const ModalTemplate = ({show, handleClose, children, name}) => {
       <Modal.Header closeButton>
         <Modal.Title>{name}</Modal.Title>
       </Modal.Header>
-      <Modal.Body style={{minHeight: '25vh'}}>{children}</Modal.Body>
+      <Modal.Body style={{minHeight: '10vh'}}>{children}</Modal.Body>
     </Modal>
   )
 }

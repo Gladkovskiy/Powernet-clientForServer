@@ -10,6 +10,11 @@ export const getOneUser = async id => {
   return data
 }
 
+export const getAllUser = async id => {
+  const {data} = await $host.get(`api/user/${id}`)
+  return data
+}
+
 export const putUser = async info => {
   const {data} = await $authHost.put('api/user', info)
   return data

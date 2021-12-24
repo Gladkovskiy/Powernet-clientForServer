@@ -1,11 +1,12 @@
 import React, {useState} from 'react'
 import ModalTemplate from '../ModalTemplate'
 import FindUser from './FindUser'
-import {userData} from '../../../assets/userData'
+// import {userData} from '../../../assets/userData'
 import UserForm from './UserForm'
 
 const EditUser = ({show, handleClose}) => {
   const [find, setFind] = useState(false)
+  const [userData, setUserData] = useState(null)
 
   const onHide = () => {
     handleClose()
@@ -19,7 +20,7 @@ const EditUser = ({show, handleClose}) => {
       name="Изменить/удалить пользователя"
     >
       {!find ? (
-        <FindUser find={setFind} />
+        <FindUser find={setFind} setUserData={setUserData} />
       ) : (
         <UserForm user={userData} close={handleClose} />
       )}
