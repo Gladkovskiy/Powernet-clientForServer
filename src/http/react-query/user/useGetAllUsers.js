@@ -9,9 +9,11 @@ const Query = id => {
     onError(err) {},
     onSuccess(data) {},
     onSettled(data, err) {},
-    staleTime: 0,
+    // staleTime: 5000,
     enabled: true,
     retry: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
   })
   return query
 }

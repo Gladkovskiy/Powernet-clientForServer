@@ -6,12 +6,12 @@ export const addUser = async info => {
 }
 
 export const getOneUser = async id => {
-  const {data} = await $host.get(`api/user`, {params: {id}})
+  const {data} = await $host.get(`api/user/${id}`)
   return data
 }
 
-export const getAllUser = async id => {
-  const {data} = await $host.get(`api/user/${id}`)
+export const getAllUser = async ipOrName => {
+  const {data} = await $host.get(`api/user`, {params: {ipOrName}})
   return data
 }
 
