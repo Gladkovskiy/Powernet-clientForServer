@@ -22,7 +22,7 @@ const EditUser = ({show, handleClose}) => {
       {!find ? (
         <FindUser find={setFind} setUserData={setUserData} />
       ) : (
-        <UserForm user={userData} close={handleClose} />
+        <UserForm user={userData} close={onHide} />
       )}
     </ModalTemplate>
   )

@@ -1,17 +1,11 @@
 import React from 'react'
 import {Formik, ErrorMessage} from 'formik'
-import * as yup from 'yup'
 import {Form, FloatingLabel, Button} from 'react-bootstrap'
+import {validationSchema, init} from '../../../formik/editTariff.js'
+import useUpdateTariff from '../../../http/react-query/tariffs/useUpdateTariff.js'
 
-const EditForm = ({selectTariff}) => {
-  const validationSchema = yup.object().shape({
-    name: yup.string().required('Обязательно'),
-    price: yup.string().required('Обязательно'),
-    connectionPrice: yup.string().required('Обязательно'),
-    speed: yup.string().required('Обязательно'),
-  })
-
-  const init = {...selectTariff}
+const EditForm = ({selectTariff, handleClose}) => {
+  const updateTariff = useUpdateTariff()
 
   const controls = [
     {name: 'name', label: 'Название тарифа'},
@@ -20,11 +14,13 @@ const EditForm = ({selectTariff}) => {
     {name: 'speed', label: 'Скорость'},
   ]
 
-  const onSubmit = values => console.log(values)
+  const onSubmit = values => {
+    updateTariff.mutateAsync(values).then(() => handleClose())
+  }
 
   return (
     <Formik
-      initialValues={init}
+      initialValues={init(selectTariff)}
       validateOnBlur
       validationSchema={validationSchema}
       onSubmit={onSubmit}
@@ -61,7 +57,18 @@ const EditForm = ({selectTariff}) => {
             </FloatingLabel>
           ))}
 
-          <Button variant="primary" type="submit" onClick={handleSubmit}>
+          {updateTariff.isError && (
+            <div className="text-danger mb-2">
+              {updateTariff.error.response.data.message}
+            </div>
+          )}
+
+          <Button
+            variant="primary"
+            type="submit"
+            onClick={handleSubmit}
+            disabled={!dirty || !isValid}
+          >
             Изменить
           </Button>
         </Form>

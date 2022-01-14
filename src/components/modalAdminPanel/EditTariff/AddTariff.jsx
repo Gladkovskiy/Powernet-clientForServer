@@ -5,7 +5,7 @@ import AddForm from './AddForm'
 const AddTariff = ({show, handleClose}) => {
   return (
     <ModalTemplate show={show} handleClose={handleClose} name="Добавить тариф">
-      <AddForm />
+      <AddForm handleClose={handleClose} />
     </ModalTemplate>
   )
 }

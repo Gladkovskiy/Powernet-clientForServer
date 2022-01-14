@@ -1,22 +1,11 @@
 import React from 'react'
 import {Formik, ErrorMessage} from 'formik'
-import * as yup from 'yup'
 import {Form, FloatingLabel, Button} from 'react-bootstrap'
+import {init, validationSchema} from '../../../formik/addTariff.js'
+import useAddTariff from '../../../http/react-query/tariffs/useAddTariff.js'
 
-const AddForm = () => {
-  const validationSchema = yup.object().shape({
-    name: yup.string().required('Обязательно'),
-    price: yup.string().required('Обязательно'),
-    connectionPrice: yup.string().required('Обязательно'),
-    speed: yup.string().required('Обязательно'),
-  })
-
-  const init = {
-    name: '',
-    price: '',
-    connectionPrice: '',
-    speed: '',
-  }
+const AddForm = ({handleClose}) => {
+  const addTariff = useAddTariff()
 
   const controls = [
     {name: 'name', label: 'Название тарифа'},
@@ -25,7 +14,8 @@ const AddForm = () => {
     {name: 'speed', label: 'Скорость'},
   ]
 
-  const onSubmit = values => console.log(values)
+  const onSubmit = values =>
+    addTariff.mutateAsync(values).then(() => handleClose())
 
   return (
     <Formik
@@ -66,7 +56,18 @@ const AddForm = () => {
             </FloatingLabel>
           ))}
 
-          <Button variant="primary" type="submit" onClick={handleSubmit}>
+          {addTariff.isError && (
+            <div className="text-danger mb-2">
+              {addTariff.error.response.data.message}
+            </div>
+          )}
+
+          <Button
+            variant="primary"
+            type="submit"
+            onClick={handleSubmit}
+            disabled={!dirty || !isValid}
+          >
             Добавить
           </Button>
         </Form>

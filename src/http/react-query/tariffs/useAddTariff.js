@@ -1,10 +1,10 @@
 import {useMutation} from 'react-query'
-import {deleteUser} from '../../api/user'
+import {addTariff} from '../../api/tariffs'
 import {useQueryClient} from 'react-query'
 
-const Delete = () => {
+const Post = () => {
   const client = useQueryClient()
-  const mutate = useMutation(deleteUser, {
+  const mutate = useMutation(addTariff, {
     onMutate(vars) {
       //   console.log('onMutate:', vars)
       //можно return и пробрасывать контекст в следющие onError, onSuccess, onSettled
@@ -14,7 +14,8 @@ const Delete = () => {
       //   console.log('onError:', error, vars, context)
     },
     onSuccess(data, vars, context) {
-      client.invalidateQueries('getAllUser')
+      client.invalidateQueries('getTariff')
+      //   client.invalidateQueries('deviceType')
       //обновление get запроса
       //   console.log('onSuccess:', data, vars, context)
     },
@@ -25,4 +26,4 @@ const Delete = () => {
   return mutate
 }
 
-export default Delete
+export default Post

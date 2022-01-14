@@ -10,6 +10,8 @@ const client = new QueryClient({
     queries: {
       staleTime: 60 * 60 * 1000, // 60 минут
       cacheTime: 1000 * 60 * 60 * 24, // 24 часа
+      retry: false,
+      refetchOnWindowFocus: false,
     },
   },
 })

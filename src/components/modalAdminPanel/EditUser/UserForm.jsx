@@ -1,30 +1,15 @@
 import React from 'react'
 import {Formik, ErrorMessage} from 'formik'
-// import * as yup from 'yup'
 import {Form, FloatingLabel, Button} from 'react-bootstrap'
 import {tarrifs} from '../../../assets/tarrifs'
 import {validationSchema, init} from '../../../formik/editUser.js'
+import usePutUser from '../../../http/react-query/user/usePutUser.js'
+import useDeleteUser from '../../../http/react-query/user/useDeleteUser.js'
 
 const UserForm = ({user, close}) => {
-  /* const validationSchema = yup.object().shape({
-    fio: yup.string().required('Обязательно'),
-    adress: yup.string().required('Обязательно'),
-    ip: yup.string().required('Обязательно'),
-    login: yup.string().required('Обязательно'),
-    password: yup.string().required('Обязательно'),
-  }) */
+  const updateUser = usePutUser()
+  const deleteUser = useDeleteUser()
 
-  /* const init = {
-    fio: user.fio,
-    adress: user.adress,
-    ip: user.ip,
-    login: user.login,
-    password: user.password,
-    role: user.role,
-    tariff: user.tariff,
-    active: user.active,
-  } */
-  console.log(user)
   const controls = [
     {name: 'fio', label: 'ФИО'},
     {name: 'adress', label: 'Адрес'},
@@ -34,11 +19,13 @@ const UserForm = ({user, close}) => {
   ]
 
   const onSubmit = values => {
-    console.log(values)
-    // close()
+    updateUser.mutateAsync(values).then(() => close())
   }
 
-  const handleDelete = () => console.log(user.id)
+  const handleDelete = e => {
+    e.preventDefault()
+    deleteUser.mutateAsync({id: user.id}).then(() => close())
+  }
 
   return (
     <Formik
@@ -113,6 +100,18 @@ const UserForm = ({user, close}) => {
               <Form.Control type="text" disabled value={values.tariff.name} />
             </div>
           </Form.Group>
+
+          {updateUser.isError && (
+            <div className="text-danger mb-2">
+              {updateUser.error.response.data.message}
+            </div>
+          )}
+
+          {deleteUser.isError && (
+            <div className="text-danger mb-2">
+              {deleteUser.error.response.data.message}
+            </div>
+          )}
 
           <div className="ms-auto w-50 text-end">
             <Button variant="primary" type="submit" onClick={handleSubmit}>

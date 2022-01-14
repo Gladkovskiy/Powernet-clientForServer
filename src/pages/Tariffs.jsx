@@ -1,31 +1,20 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import TariffsTable from '../components/TariffsTable'
-import {tarrifs, additionalServices} from '../assets/tarrifs'
-import {delay} from '../utils/pureFunction.js'
 import Spinner from '../components/Spinner'
 import AdditionalServices from '../components/AdditionalServices'
+import useGetTariffs from '../http/react-query/tariffs/useGetTariffs.js'
+import useGetServices from '../http/react-query/tariffs/useGetServices.js'
 
 const Tariffs = () => {
-  const [isLoading, setLoading] = useState(true)
-  const [tarrifsActual, setTarrifsActual] = useState()
-  const [additionalServic, setAdditionalServic] = useState()
+  const tariffs = useGetTariffs()
+  const services = useGetServices()
 
-  //данные с сервера эмитируем
-  useEffect(() => {
-    delay().then(() => {
-      setTarrifsActual(tarrifs)
-      setAdditionalServic(additionalServices)
-      setLoading(false)
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  if (isLoading) return <Spinner />
+  if (tariffs.isLoading || services.isLoading) return <Spinner />
 
   return (
     <>
-      <TariffsTable tarrifsActual={tarrifsActual} />
-      <AdditionalServices additionalServic={additionalServic} />
+      <TariffsTable tarrifsActual={tariffs.data} />
+      <AdditionalServices additionalServic={services.data} />
     </>
   )
 }
