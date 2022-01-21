@@ -1,7 +1,9 @@
 import {useMutation} from 'react-query'
 import {addNews} from '../../api/news'
+import {useQueryClient} from 'react-query'
 
 const useCreateType = () => {
+  const client = useQueryClient()
   const mutate = useMutation(addNews, {
     onMutate(vars) {
       //   console.log('onMutate:', vars)
@@ -12,6 +14,8 @@ const useCreateType = () => {
       //   console.log('onError:', error, vars, context)
     },
     onSuccess(data, vars, context) {
+      client.invalidateQueries('getNews')
+
       //   client.invalidateQueries('deviceType')
       //обновление get запроса
       //   console.log('onSuccess:', data, vars, context)

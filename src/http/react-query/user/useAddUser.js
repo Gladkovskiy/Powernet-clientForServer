@@ -1,7 +1,9 @@
 import {useMutation} from 'react-query'
 import {addUser} from '../../api/user'
+import {useQueryClient} from 'react-query'
 
 const Post = () => {
+  const client = useQueryClient()
   const mutate = useMutation(addUser, {
     onMutate(vars) {
       //   console.log('onMutate:', vars)
@@ -12,6 +14,7 @@ const Post = () => {
       //   console.log('onError:', error, vars, context)
     },
     onSuccess(data, vars, context) {
+      client.invalidateQueries('getAllUser')
       //   client.invalidateQueries('deviceType')
       //обновление get запроса
       //   console.log('onSuccess:', data, vars, context)

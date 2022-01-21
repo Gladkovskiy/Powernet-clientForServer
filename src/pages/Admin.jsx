@@ -7,6 +7,7 @@ import AddUser from '../components/modalAdminPanel/EditUser/AddUser'
 import EditUser from '../components/modalAdminPanel/EditUser/EditUser'
 import AddTariff from '../components/modalAdminPanel/EditTariff/AddTariff'
 import EditTarif from '../components/modalAdminPanel/EditTariff/EditTarif'
+import Helmet from '../components/Helmet'
 
 const Admin = () => {
   const [addNews, setAddNews] = useState(false)
@@ -29,6 +30,8 @@ const Admin = () => {
 
   return (
     <>
+      <Helmet title="Админ панель" description="Powernet" />
+
       <AdminPanel modalOpen={options} />
       {/* новости */}
       <AddNews show={addNews} handleClose={() => setAddNews(false)} />

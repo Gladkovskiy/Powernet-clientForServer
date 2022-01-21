@@ -13,8 +13,7 @@ const AddNews = ({show, handleClose}) => {
     data.append('title', values.title)
     data.append('text', values.text)
     data.append('img', values.img)
-    addNews.mutate(data)
-    handleClose(false)
+    addNews.mutateAsync(data).then(() => handleClose(false))
   }
 
   return (
@@ -91,6 +90,12 @@ const AddNews = ({show, handleClose}) => {
                 className="text-danger mt-1"
               />
             </Form.Group>
+
+            {addNews.isError && (
+              <div className="text-danger mb-2">
+                {addNews.error.response.data.message}
+              </div>
+            )}
 
             <Button
               variant="primary"

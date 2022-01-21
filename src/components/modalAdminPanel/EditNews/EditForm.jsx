@@ -11,8 +11,7 @@ const EditForm = ({id, handleClose}) => {
   const putNews = usePutNews()
 
   const confirm = values => {
-    putNews.mutate({id, ...values})
-    handleClose()
+    putNews.mutateAsync({id, ...values}).then(() => handleClose())
   }
 
   if (oneNews.isLoading) return <Spinner />
@@ -73,6 +72,12 @@ const EditForm = ({id, handleClose}) => {
               className="text-danger mt-1"
             />
           </Form.Group>
+
+          {putNews.isError && (
+            <div className="text-danger mb-2">
+              {putNews.error.response.data.message}
+            </div>
+          )}
 
           <Button
             variant="primary"

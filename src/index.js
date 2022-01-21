@@ -4,6 +4,7 @@ import './index.scss'
 import App from './App'
 import {QueryClientProvider, QueryClient} from 'react-query'
 import {ReactQueryDevtools} from 'react-query/devtools'
+import {HelmetProvider} from 'react-helmet-async'
 
 const client = new QueryClient({
   defaultOptions: {
@@ -18,10 +19,12 @@ const client = new QueryClient({
 
 ReactDOM.render(
   <React.StrictMode>
-    <QueryClientProvider client={client}>
-      <App />
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    <HelmetProvider>
+      <QueryClientProvider client={client}>
+        <App />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </HelmetProvider>
   </React.StrictMode>,
   document.getElementById('root')
 )

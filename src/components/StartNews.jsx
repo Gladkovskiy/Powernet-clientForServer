@@ -5,12 +5,14 @@ import {NEWS_ROUTE} from '../utils/const'
 import useGetNews from '../http/react-query/news/useGetNews.js'
 import Spinner from '../components/Spinner'
 import {normalizeDate} from '../utils/pureFunction.js'
+import ServerError from './ServerError'
 
 const StartNews = () => {
   const getNews = useGetNews(1, 10)
   const navigate = useNavigate()
 
   if (getNews.isLoading) return <Spinner />
+  if (getNews.isError) return <ServerError />
   const lastNews = getNews.data.rows
 
   return (

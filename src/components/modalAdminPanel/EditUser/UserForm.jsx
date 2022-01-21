@@ -1,14 +1,17 @@
 import React from 'react'
 import {Formik, ErrorMessage} from 'formik'
 import {Form, FloatingLabel, Button} from 'react-bootstrap'
-import {tarrifs} from '../../../assets/tarrifs'
 import {validationSchema, init} from '../../../formik/editUser.js'
 import usePutUser from '../../../http/react-query/user/usePutUser.js'
 import useDeleteUser from '../../../http/react-query/user/useDeleteUser.js'
+import useGetTariffs from '../../../http/react-query/tariffs/useGetTariffs.js'
+import useGetRole from '../../../http/react-query/role/useGetRole'
 
 const UserForm = ({user, close}) => {
   const updateUser = usePutUser()
   const deleteUser = useDeleteUser()
+  const tarrifs = useGetTariffs()
+  const role = useGetRole()
 
   const controls = [
     {name: 'fio', label: 'ФИО'},
@@ -79,9 +82,12 @@ const UserForm = ({user, close}) => {
           <Form.Group className="mb-3">
             <Form.Label>Выберите роль</Form.Label>
             <div className="d-flex">
-              <Form.Select onChange={handleChange} name="role">
-                <option value="USER">USER</option>
-                <option value="ADMIN">ADMIN</option>
+              <Form.Select onChange={handleChange} name="roleId">
+                {role.data.map(({id, type}) => (
+                  <option key={type} value={id}>
+                    {type}
+                  </option>
+                ))}
               </Form.Select>
               <Form.Control type="text" disabled value={values.role.type} />
             </div>
@@ -90,9 +96,9 @@ const UserForm = ({user, close}) => {
           <Form.Group className="mb-3">
             <Form.Label>Выберите тариф</Form.Label>
             <div className="d-flex">
-              <Form.Select>
-                {tarrifs.map(({id, name}) => (
-                  <option key={id} value={name}>
+              <Form.Select onChange={handleChange} name="tariffId">
+                {tarrifs.data.map(({id, name}) => (
+                  <option key={id} value={id}>
                     {name}
                   </option>
                 ))}

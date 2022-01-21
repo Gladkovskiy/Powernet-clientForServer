@@ -1,6 +1,6 @@
-import {$host, $authHost} from './index'
+import {$host} from './index'
 
 export const getRole = async () => {
-  const {data} = await $host.get('api/role')
+  const {data} = await $host.get('/role')
   return data
 }

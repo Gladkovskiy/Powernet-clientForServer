@@ -2,12 +2,12 @@ import axios from 'axios'
 
 //запросы без  авторизации
 export const $host = axios.create({
-  baseURL: '/',
+  baseURL: '/api',
 })
 
 //запросы с авторизацией
 export const $authHost = axios.create({
-  baseURL: '/',
+  baseURL: '/api',
 })
 
 const authIntercepter = config => {
